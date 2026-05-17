@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ByteForge IT — Сглобяване. Ремонт. Надграждане.</title>
+  <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0a0c10;
+      --surface: #111520;
+      --card: #161b28;
+      --border: #1e2a40;
+      --accent: #00c8ff;
+      --accent2: #ff6a00;
+      --text: #e8f0fe;
+      --muted: #7a8aaa;
+      --glow: 0 0 24px rgba(0,200,255,0.35);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Exo 2', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ── GRID TEXTURE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,200,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,200,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5%;
+      height: 64px;
+      background: rgba(10,12,16,0.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Black Ops One', cursive;
+      font-size: 1.5rem;
+      color: var(--accent);
+      text-shadow: var(--glow);
+      letter-spacing: 2px;
+    }
+
+    .nav-logo span { color: var(--accent2); }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+
+    nav ul a {
+      text-decoration: none;
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: color .2s;
+    }
+
+    nav ul a:hover { color: var(--accent); }
+
+    .nav-cta {
+      background: var(--accent);
+      color: #000 !important;
+      padding: 8px 18px;
+      border-radius: 4px;
+      font-weight: 700 !important;
+      transition: background .2s, box-shadow .2s !important;
+    }
+
+    .nav-cta:hover {
+      background: #33d4ff !important;
+      box-shadow: var(--glow) !important;
+      color: #000 !important;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 92vh;
+      display: flex;
+      align-items: center;
+      padding: 0 8%;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 70% 50%, rgba(0,200,255,0.08) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 40% at 20% 80%, rgba(255,106,0,0.06) 0%, transparent 60%);
+      z-index: 0;
+    }
+
+    /* Animated circuit lines */
+    .circuit {
+      position: absolute;
+      right: 4%;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 420px;
+      height: 420px;
+      opacity: 0.18;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 640px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(0,200,255,0.1);
+      border: 1px solid rgba(0,200,255,0.3);
+      color: var(--accent);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 3px;
+      margin-bottom: 1.5rem;
+      animation: fadeUp .6s ease both;
+    }
+
+    .hero h1 {
+      font-family: 'Black Ops One', cursive;
+      font-size: clamp(2.8rem, 6vw, 5.5rem);
+      line-height: 1.05;
+      margin-bottom: 1.5rem;
+      animation: fadeUp .7s .1s ease both;
+    }
+
+    .hero h1 .line2 { color: var(--accent); text-shadow: var(--glow); }
+    .hero h1 .line3 { color: var(--accent2); }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 480px;
+      margin-bottom: 2.5rem;
+      animation: fadeUp .7s .2s ease both;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      animation: fadeUp .7s .3s ease both;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #000;
+      font-family: 'Exo 2', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 1px;
+      padding: 14px 32px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: box-shadow .2s, transform .15s;
+      display: inline-block;
+    }
+
+    .btn-primary:hover {
+      box-shadow: var(--glow);
+      transform: translateY(-2px);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      font-family: 'Exo 2', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: 1px;
+      padding: 14px 32px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: border-color .2s, color .2s;
+      display: inline-block;
+    }
+
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── STATS BAR ── */
+    .stats-bar {
+      position: relative;
+      z-index: 1;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 2rem 8%;
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-family: 'Black Ops One', cursive;
+      font-size: 2.4rem;
+      color: var(--accent);
+      text-shadow: var(--glow);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 6rem 8%;
+    }
+
+    .section-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: .75rem;
+    }
+
+    .section-title {
+      font-family: 'Black Ops One', cursive;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      margin-bottom: 1rem;
+      line-height: 1.1;
+    }
+
+    .section-sub {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 520px;
+      line-height: 1.6;
+      margin-bottom: 3.5rem;
+    }
+
+    /* ── SERVICES ── */
+    #services { background: var(--bg); }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .service-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 2rem;
+      transition: border-color .25s, transform .2s, box-shadow .25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      opacity: 0;
+      transition: opacity .25s;
+    }
+
+    .service-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 32px rgba(0,200,255,0.12);
+    }
+
+    .service-card:hover::before { opacity: 1; }
+
+    .service-icon {
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .service-card h3 {
+      font-family: 'Black Ops One', cursive;
+      font-size: 1.15rem;
+      margin-bottom: .6rem;
+      letter-spacing: 1px;
+    }
+
+    .service-card p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .service-price {
+      margin-top: 1.2rem;
+      font-weight: 700;
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    /* ── PC BUILDS ── */
+    #builds { background: var(--surface); }
+
+    .builds-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .build-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    .build-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(0,200,255,0.15);
+    }
+
+    .build-header {
+      padding: 1.5rem 1.5rem 1rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .build-tier {
+      font-family: 'Black Ops One', cursive;
+      font-size: 1.3rem;
+      letter-spacing: 1px;
+    }
+
+    .tier-entry .build-tier { color: #5af0a0; }
+    .tier-mid .build-tier { color: var(--accent); }
+    .tier-high .build-tier { color: var(--accent2); }
+
+    .build-badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 3px;
+    }
+
+    .tier-entry .build-badge { background: rgba(90,240,160,0.12); color: #5af0a0; border: 1px solid rgba(90,240,160,0.3); }
+    .tier-mid .build-badge { background: rgba(0,200,255,0.12); color: var(--accent); border: 1px solid rgba(0,200,255,0.3); }
+    .tier-high .build-badge { background: rgba(255,106,0,0.12); color: var(--accent2); border: 1px solid rgba(255,106,0,0.3); }
+
+    .build-body { padding: 1.5rem; }
+
+    .build-price {
+      font-family: 'Black Ops One', cursive;
+      font-size: 2rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .build-specs {
+      list-style: none;
+      margin-bottom: 1.5rem;
+    }
+
+    .build-specs li {
+      font-size: 0.88rem;
+      color: var(--muted);
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(30,42,64,0.6);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .build-specs li span:last-child {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    /* ── PROCESS ── */
+    #process { background: var(--bg); }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      counter-reset: steps;
+    }
+
+    .step {
+      position: relative;
+      padding: 2rem 1.5rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      text-align: center;
+      counter-increment: steps;
+    }
+
+    .step::before {
+      content: counter(steps, decimal-leading-zero);
+      font-family: 'Black Ops One', cursive;
+      font-size: 2.5rem;
+      color: rgba(0,200,255,0.12);
+      position: absolute;
+      top: 1rem;
+      right: 1.2rem;
+      line-height: 1;
+    }
+
+    .step-icon { font-size: 2rem; margin-bottom: 1rem; }
+
+    .step h3 {
+      font-family: 'Black Ops One', cursive;
+      font-size: 1rem;
+      letter-spacing: 1px;
+      margin-bottom: .5rem;
+    }
+
+    .step p { font-size: 0.875rem; color: var(--muted); line-height: 1.55; }
+
+    /* ── TESTIMONIALS ── */
+    #reviews { background: var(--surface); }
+
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .review-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.8rem;
+    }
+
+    .stars { color: #fbbf24; font-size: 1rem; margin-bottom: 1rem; letter-spacing: 2px; }
+
+    .review-card p {
+      font-size: 0.92rem;
+      color: var(--muted);
+      line-height: 1.65;
+      font-style: italic;
+      margin-bottom: 1.2rem;
+    }
+
+    .reviewer {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+    }
+
+    .reviewer-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: #000;
+    }
+
+    .reviewer-name { font-weight: 700; font-size: 0.9rem; }
+    .reviewer-detail { font-size: 0.78rem; color: var(--muted); }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--bg); }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    @media (max-width: 720px) {
+      .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      nav ul { display: none; }
+      .circuit { display: none; }
+      .hero { padding: 4rem 6% 3rem; }
+    }
+
+    .contact-info h3 {
+      font-family: 'Black Ops One', cursive;
+      font-size: 1.4rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .contact-detail {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .contact-detail-icon {
+      font-size: 1.4rem;
+      margin-top: 2px;
+    }
+
+    .contact-detail-text strong { display: block; font-size: 0.85rem; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 2px; }
+    .contact-detail-text span { font-size: 1rem; color: var(--text); }
+
+    .hours-table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; }
+    .hours-table td { padding: 8px 0; font-size: 0.9rem; border-bottom: 1px solid var(--border); }
+    .hours-table td:last-child { text-align: right; color: var(--accent); font-weight: 600; }
+
+    .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
+
+    .form-group { display: flex; flex-direction: column; gap: .4rem; }
+
+    .form-group label { font-size: 0.8rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--text);
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.95rem;
+      padding: 10px 14px;
+      transition: border-color .2s;
+      outline: none;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0,200,255,0.08);
+    }
+
+    .form-group textarea { resize: vertical; min-height: 110px; }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 3rem 8%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    .footer-logo {
+      font-family: 'Black Ops One', cursive;
+      font-size: 1.3rem;
+      color: var(--accent);
+      letter-spacing: 2px;
+    }
+
+    .footer-logo span { color: var(--accent2); }
+
+    footer p { font-size: 0.82rem; color: var(--muted); }
+
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a { font-size: 0.82rem; color: var(--muted); text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: var(--accent); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: none; }
+
+    /* ── HIGHLIGHT ── */
+    .accent { color: var(--accent); }
+    .accent2 { color: var(--accent2); }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Byte<span>Forge</span> IT</div>
+  <ul>
+    <li><a href="#services">Услуги</a></li>
+    <li><a href="#builds">Конфигурации</a></li>
+    <li><a href="#process">Процес</a></li>
+    <li><a href="#reviews">Отзиви</a></li>
+    <li><a href="#contact" class="nav-cta">Запитване</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+
+  <!-- SVG Circuit Art -->
+  <svg class="circuit" viewBox="0 0 420 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="60" y="60" width="300" height="300" rx="8" stroke="#00c8ff" stroke-width="1.5"/>
+    <rect x="100" y="100" width="220" height="220" rx="4" stroke="#00c8ff" stroke-width="1"/>
+    <line x1="60" y1="210" x2="0" y2="210" stroke="#00c8ff" stroke-width="1.5"/>
+    <line x1="360" y1="210" x2="420" y2="210" stroke="#ff6a00" stroke-width="1.5"/>
+    <line x1="210" y1="60" x2="210" y2="0" stroke="#00c8ff" stroke-width="1.5"/>
+    <line x1="210" y1="360" x2="210" y2="420" stroke="#ff6a00" stroke-width="1.5"/>
+    <circle cx="60" cy="60" r="6" fill="#00c8ff"/>
+    <circle cx="360" cy="60" r="6" fill="#00c8ff"/>
+    <circle cx="60" cy="360" r="6" fill="#ff6a00"/>
+    <circle cx="360" cy="360" r="6" fill="#ff6a00"/>
+    <circle cx="210" cy="210" r="30" stroke="#00c8ff" stroke-width="1.5"/>
+    <circle cx="210" cy="210" r="10" fill="#00c8ff" opacity="0.4"/>
+    <line x1="130" y1="130" x2="180" y2="180" stroke="#00c8ff" stroke-width="1"/>
+    <line x1="290" y1="130" x2="240" y2="180" stroke="#00c8ff" stroke-width="1"/>
+    <line x1="130" y1="290" x2="180" y2="240" stroke="#ff6a00" stroke-width="1"/>
+    <line x1="290" y1="290" x2="240" y2="240" stroke="#ff6a00" stroke-width="1"/>
+    <rect x="140" y="90" width="16" height="16" fill="#00c8ff" opacity="0.5"/>
+    <rect x="265" y="90" width="16" height="16" fill="#00c8ff" opacity="0.5"/>
+    <rect x="140" y="314" width="16" height="16" fill="#ff6a00" opacity="0.5"/>
+    <rect x="265" y="314" width="16" height="16" fill="#ff6a00" opacity="0.5"/>
+  </svg>
+
+  <div class="hero-content">
+    <div class="hero-badge">⚡ Осн. 2019 — Ученически IT Магазин</div>
+    <h1>
+      СГЛОБЯВАНЕ.<br>
+      <span class="line2">РЕМОНТ.</span><br>
+      <span class="line3">НАДГРАЖДАНЕ.</span>
+    </h1>
+    <p>ByteForge IT е вашият местен магазин за изграждане и ремонт на компютри по поръчка. От бюджетни геймърски машини до мощни работни станции — сглобяваме, диагностицираме и надграждаме с точност.</p>
+    <div class="hero-buttons">
+      <a href="#builds" class="btn-primary">Разгледай Конфигурации</a>
+      <a href="#contact" class="btn-ghost">Запази Ремонт →</a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar fade-in">
+  <div class="stat">
+    <div class="stat-number">500+</div>
+    <div class="stat-label">Сглобени Компютри</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number">1,200+</div>
+    <div class="stat-label">Ремонта Извършени</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number">48ч</div>
+    <div class="stat-label">Средно Изпълнение</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number">4.9★</div>
+    <div class="stat-label">Средна Оценка</div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-tag">Какво Правим</div>
+  <h2 class="section-title">Нашите <span class="accent">Услуги</span></h2>
+  <p class="section-sub">От счупени екрани до пълни персонализирани конфигурации — ако има платка, ние можем да се справим.</p>
+
+  <div class="services-grid fade-in">
+    <div class="service-card">
+      <div class="service-icon">🖥️</div>
+      <h3>Компютри по Поръчка</h3>
+      <p>Ще изберем компоненти, набавим ги, сглобим и тестваме машината на мечтите ви — съобразена с бюджета и предназначението ви, дали за игри, монтаж или програмиране.</p>
+      <div class="service-price">От 80 лв. труд</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🔧</div>
+      <h3>Ремонт на Хардуер</h3>
+      <p>Повредени дънни платки, мъртви GPU-та, изгорели захранвания — диагностицираме и поправяме хардуера ви с оригинални или съвместими части.</p>
+      <div class="service-price">От 40 лв.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">💽</div>
+      <h3>Възстановяване на Данни</h3>
+      <p>Изгубени файлове от паднал диск? Използваме професионални инструменти за безопасно възстановяване на данни от HDD и SSD.</p>
+      <div class="service-price">От 60 лв.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🦠</div>
+      <h3>Премахване на Вируси</h3>
+      <p>Пълно сканиране на системата, премахване на зловреден софтуер, укрепване на ОС и проверка на сигурността за чист и защитен компютър.</p>
+      <div class="service-price">От 35 лв.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">⬆️</div>
+      <h3>Надграждане на Хардуер</h3>
+      <p>Дайте нов живот на стария си компютър. Добавяне на RAM, смяна на SSD, нови GPU — бързо и с перфектно наредени кабели.</p>
+      <div class="service-price">От 25 лв. труд</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🌐</div>
+      <h3>Настройка на Мрежа</h3>
+      <p>Домашна или офис мрежа, конфигурация на рутер, оптимизация на Wi-Fi и наредени кабели за чиста инсталация.</p>
+      <div class="service-price">От 50 лв.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">💻</div>
+      <h3>Ремонт на Лаптоп Екран</h3>
+      <p>Счупен или мъртъв екран на лаптоп? Набавяме и сменяме дисплеи за повечето марки — обикновено същия или следващия ден.</p>
+      <div class="service-price">От 70 лв.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🔄</div>
+      <h3>Инсталация на ОС</h3>
+      <p>Чисти инсталации на Windows или Linux, настройка на драйвери, конфигурация на софтуер и готова система от нулата.</p>
+      <div class="service-price">От 30 лв.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PC BUILDS -->
+<section id="builds">
+  <div class="section-tag">Готови Конфигурации</div>
+  <h2 class="section-title">Предварително Сглобени <span class="accent">Компютри</span></h2>
+  <p class="section-sub">Изберете ниво или ни оставете да персонализираме конфигурация според нуждите и бюджета ви.</p>
+
+  <div class="builds-grid fade-in">
+    <!-- Budget -->
+    <div class="build-card tier-entry">
+      <div class="build-header">
+        <div class="build-tier">Бюджетен Убиец</div>
+        <div class="build-badge">Начален</div>
+      </div>
+      <div class="build-body">
+        <div class="build-price">900 лв.</div>
+        <ul class="build-specs">
+          <li><span>Процесор</span><span>AMD Ryzen 5 5600</span></li>
+          <li><span>Видеокарта</span><span>RX 6600 8GB</span></li>
+          <li><span>Памет</span><span>16GB DDR4 3200</span></li>
+          <li><span>Съхранение</span><span>500GB NVMe SSD</span></li>
+          <li><span>Захранване</span><span>550W 80+ Bronze</span></li>
+          <li><span>Кутия</span><span>Mid-Tower ATX</span></li>
+          <li><span>ОС</span><span>Windows 11 Home</span></li>
+        </ul>
+        <a href="#contact" class="btn-primary" style="width:100%;text-align:center;display:block;">Поръчай Тази Конфигурация</a>
+      </div>
+    </div>
+
+    <!-- Mid -->
+    <div class="build-card tier-mid">
+      <div class="build-header">
+        <div class="build-tier">1080p Звяр</div>
+        <div class="build-badge">Най-Популярен</div>
+      </div>
+      <div class="build-body">
+        <div class="build-price" style="color:var(--accent);">1 600 лв.</div>
+        <ul class="build-specs">
+          <li><span>Процесор</span><span>Intel i5-13600K</span></li>
+          <li><span>Видеокарта</span><span>RTX 4070 12GB</span></li>
+          <li><span>Памет</span><span>32GB DDR5 5600</span></li>
+          <li><span>Съхранение</span><span>1TB NVMe Gen4</span></li>
+          <li><span>Захранване</span><span>750W 80+ Gold</span></li>
+          <li><span>Кутия</span><span>ARGB Mid-Tower</span></li>
+          <li><span>ОС</span><span>Windows 11 Pro</span></li>
+        </ul>
+        <a href="#contact" class="btn-primary" style="width:100%;text-align:center;display:block;">Поръчай Тази Конфигурация</a>
+      </div>
+    </div>
+
+    <!-- High-end -->
+    <div class="build-card tier-high">
+      <div class="build-header">
+        <div class="build-tier">Титан Станция</div>
+        <div class="build-badge">Висок Клас</div>
+      </div>
+      <div class="build-body">
+        <div class="build-price" style="color:var(--accent2);">3 200 лв.</div>
+        <ul class="build-specs">
+          <li><span>Процесор</span><span>AMD Ryzen 9 7950X</span></li>
+          <li><span>Видеокарта</span><span>RTX 4090 24GB</span></li>
+          <li><span>Памет</span><span>64GB DDR5 6000</span></li>
+          <li><span>Съхранение</span><span>2TB NVMe + 4TB HDD</span></li>
+          <li><span>Захранване</span><span>1000W 80+ Platinum</span></li>
+          <li><span>Кутия</span><span>Full-Tower + AIO 360</span></li>
+          <li><span>ОС</span><span>Windows 11 Pro</span></li>
+        </ul>
+        <a href="#contact" class="btn-primary" style="width:100%;text-align:center;display:block;background:var(--accent2);">Поръчай Тази Конфигурация</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="section-tag">Как Работим</div>
+  <h2 class="section-title">Нашият <span class="accent">Процес</span></h2>
+  <p class="section-sub">Просто, прозрачно и бързо — ето какво се случва от първия контакт до готовата машина.</p>
+
+  <div class="steps fade-in">
+    <div class="step">
+      <div class="step-icon">📋</div>
+      <h3>Консултация</h3>
+      <p>Кажете ни какво ви трябва — ремонт, сглобяване или надграждане. Ще зададем правилните въпроси и ще ви дадем оферта до 24 часа.</p>
+    </div>
+    <div class="step">
+      <div class="step-icon">🛒</div>
+      <h3>Набавяне</h3>
+      <p>Набавяме части на конкурентни цени, като проверяваме съвместимостта и надеждността преди поръчка.</p>
+    </div>
+    <div class="step">
+      <div class="step-icon">⚙️</div>
+      <h3>Сглобяване и Тест</h3>
+      <p>Сглобяваме внимателно, правим стрес тестове, бенчмаркове и диагностика преди да обявим машината за готова.</p>
+    </div>
+    <div class="step">
+      <div class="step-icon">📦</div>
+      <h3>Предаване</h3>
+      <p>Вземете от магазина или организирайте доставка. Ще ви запознаем с новата машина и ще се уверим, че сте доволни.</p>
+    </div>
+    <div class="step">
+      <div class="step-icon">🛡️</div>
+      <h3>Поддръжка</h3>
+      <p>90-дневна гаранция на всички сглобявания и ремонти. Само едно съобщение разстояние сме ако нещо се случи след това.</p>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews">
+  <div class="section-tag">Клиентски Истории</div>
+  <h2 class="section-title">Какво <span class="accent">Казват</span></h2>
+  <p class="section-sub">Не ни вярвайте просто така — чуйте от нашите доволни клиенти.</p>
+
+  <div class="reviews-grid fade-in">
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <p>„Донесох компютъра си, който беше мъртъв от седмици. Диагностицираха повредено захранване за час и го поправиха до следващия ден. Цените са честни и момчетата обясняват какво е сгрешило."</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar">МК</div>
+        <div>
+          <div class="reviewer-name">Мартин К.</div>
+          <div class="reviewer-detail">Клиент — Ремонт на Хардуер</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <p>„Поръчах компютър по поръчка за рождения ден на сина ми. Поддържаха ме информиран през целия процес и доставиха невероятна машина, която пуска всяка игра перфектно. Препоръчвам с две ръце."</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar">СЛ</div>
+        <div>
+          <div class="reviewer-name">Светла Л.</div>
+          <div class="reviewer-detail">Клиент — Компютър по Поръчка</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <p>„Екранът на лаптопа ми се счупи и го смениха същия ден. Супер бързо, страхотна комуникация и по-евтино от производителя. Оттогава съм изпратил трима колеги при тях."</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar">ЯР</div>
+        <div>
+          <div class="reviewer-name">Явор Р.</div>
+          <div class="reviewer-detail">Клиент — Ремонт на Лаптоп</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <p>„Имах сериозна зараза с вирус — загубих достъп до половината файлове. ByteForge почистиха всичко, възстановиха данните ми и инсталираха антивирус. Истински спасители."</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar">АП</div>
+        <div>
+          <div class="reviewer-name">Анна П.</div>
+          <div class="reviewer-detail">Клиент — Премахване на Вируси</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <p>„Имах нужда от работна станция за видеомонтаж с ограничен бюджет. Сглобиха Ryzen 9 конфигурация, която лети. Управлението на кабелите е луда работа — изглежда като космически кораб отвътре."</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar">ТН</div>
+        <div>
+          <div class="reviewer-name">Тодор Н.</div>
+          <div class="reviewer-detail">Клиент — Компютър по Поръчка</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <p>„Бърза смяна на SSD, която даде нов живот на 6-годишния ми компютър. Влязох и излязох за под час. Дори преинсталираха Windows, така че всичко беше чисто когато го получих."</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar">ХБ</div>
+        <div>
+          <div class="reviewer-name">Христо Б.</div>
+          <div class="reviewer-detail">Клиент — Надграждане</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-tag">Свържете се с Нас</div>
+  <h2 class="section-title">Запазете <span class="accent">Ремонт</span> или Оферта</h2>
+  <p class="section-sub">Елате лично, обадете ни се или попълнете формата по-долу. Ще се свържем с вас в рамките на няколко часа.</p>
+
+  <div class="contact-grid fade-in">
+    <div class="contact-info">
+      <h3>Намерете Ни</h3>
+
+      <div class="contact-detail">
+        <div class="contact-detail-icon">📍</div>
+        <div class="contact-detail-text">
+          <strong>Адрес</strong>
+          <span>ул. „Технологична" 14, офис 3<br>Бяла Слатина, 3200</span>
+        </div>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-detail-icon">📞</div>
+        <div class="contact-detail-text">
+          <strong>Телефон</strong>
+          <span>+359 878 123 456</span>
+        </div>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-detail-icon">✉️</div>
+        <div class="contact-detail-text">
+          <strong>Имейл</strong>
+          <span>hello@byteforgeit.com</span>
+        </div>
+      </div>
+
+      <table class="hours-table">
+        <tr><td>Понеделник – Петък</td><td>9:00 – 18:00</td></tr>
+        <tr><td>Събота</td><td>10:00 – 16:00</td></tr>
+        <tr><td>Неделя</td><td>Затворено</td></tr>
+      </table>
+    </div>
+
+    <form class="contact-form" onsubmit="handleSubmit(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="fname">Ime</label>
+          <input type="text" id="fname" placeholder="Александър" required/>
+        </div>
+        <div class="form-group">
+          <label for="lname">Фамилия</label>
+          <input type="text" id="lname" placeholder="Иванов" required/>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="email">Имейл</label>
+          <input type="email" id="email" placeholder="вие@имейл.com" required/>
+        </div>
+        <div class="form-group">
+          <label for="phone">Телефон (по желание)</label>
+          <input type="tel" id="phone" placeholder="+359 878 000 000"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="service">Необходима Услуга</label>
+        <select id="service">
+          <option value="">Изберете услуга...</option>
+          <option>Компютър по Поръчка</option>
+          <option>Ремонт на Хардуер</option>
+          <option>Ремонт на Лаптоп Екран</option>
+          <option>Премахване на Вируси / Зловреден Софтуер</option>
+          <option>Възстановяване на Данни</option>
+          <option>Надграждане на Хардуер</option>
+          <option>Инсталация на ОС</option>
+          <option>Настройка на Мрежа</option>
+          <option>Друго</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="message">Разкажете Ни Повече</label>
+        <textarea id="message" placeholder="Опишете проблема си или какво искате да сглобим..."></textarea>
+      </div>
+      <button type="submit" class="btn-primary" style="width:100%;font-size:1rem;">Изпрати Съобщение ⚡</button>
+      <div id="form-success" style="display:none;color:#5af0a0;font-size:0.9rem;text-align:center;padding:.5rem;background:rgba(90,240,160,0.08);border:1px solid rgba(90,240,160,0.2);border-radius:4px;">
+        ✅ Съобщението е изпратено! Ще се свържем с вас в рамките на няколко часа.
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">Byte<span>Forge</span> IT</div>
+    <p style="margin-top:.4rem;">© 2025 ByteForge IT. Ученически Проект.</p>
+  </div>
+  <div class="footer-links">
+    <a href="#services">Услуги</a>
+    <a href="#builds">Конфигурации</a>
+    <a href="#process">Процес</a>
+    <a href="#contact">Контакти</a>
+  </div>
+</footer>
+
+<script>
+  // Scroll-triggered fade-ins
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Form submit
+  function handleSubmit(e) {
+    e.preventDefault();
+    document.getElementById('form-success').style.display = 'block';
+    e.target.reset();
+    setTimeout(() => { document.getElementById('form-success').style.display = 'none'; }, 5000);
+  }
+</script>
+</body>
+</html>
